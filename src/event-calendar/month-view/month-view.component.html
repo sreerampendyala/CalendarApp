@@ -1,0 +1,56 @@
+<mat-card class="event-calender-month-container">
+    <mat-card-title>
+      <span *ngIf="hasCardTitle">{{ title }}</span>
+    </mat-card-title>
+    <mat-card-content class="event-calender-month-content">
+      <ng-container *ngTemplateOutlet="monthViewHeader"></ng-container>
+      <ng-container *ngTemplateOutlet="monthViewContent"></ng-container>
+    </mat-card-content>
+  </mat-card>
+  
+  <ng-template #monthViewHeader>
+    <div class="days-header">
+      <div class="day" *ngFor="let day of weekHeaders">
+        <span>{{ day }}</span>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #monthViewContent>
+    <div class="calender-body">
+      <div class="calender-row" *ngFor="let week of daysInMonth">
+        <div
+          class="calender-row-day"
+          *ngFor="let day of week; let i = index"
+          [class.present-day]="day === today"
+          [tabindex]="i"
+        >
+          <app-calendar-month-day-card
+            [resourceId]="eventDetails?.resourceId || 0"
+            [events]="eventDetails?.events?.[day] || []"
+            [date]="day"
+            [monthDate]="dateInMonth"
+            [showPopOverOnClick]="showPopOverOnClick"
+            [overlayCloseSubject]="overlayCloseSubject"
+            [rightClickEnable]="rightClickEnable"
+            [timeZone]="timeZone"
+            (badgeClicked)="badgeClicked.emit($event)"
+            (eventClicked)="eventClicked.emit($event)"
+            (click)="onDayClick(day)"
+            [attr.data-qa]="'month-view-day-click-' + (day | date: 'MM/dd/yyyy')"
+          >
+            <ng-template #popoverContentMV>
+              <ng-container [ngTemplateOutlet]="popoverContentES"></ng-container>
+            </ng-template>
+  
+            <ng-template #contextMenuContentMV let-event="event">
+              <ng-container
+                [ngTemplateOutlet]="contextMenuContentES"
+                [ngTemplateOutletContext]="{ event: event }"
+              ></ng-container>
+            </ng-template>
+          </app-calendar-month-day-card>
+        </div>
+      </div>
+    </div>
+  </ng-template>

@@ -1,0 +1,38 @@
+.view-control {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .pop-over {
+    height: fit-content;
+    width: 14rem;
+  
+    .close-button {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      width: 100%;
+    }
+  }
+  
+  .calender {
+    height: 44rem;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  
+    app-event-calendar {
+      display: flex;
+      height: 44rem;
+      width: calc(100% - 5rem);
+    }
+  }
+  
+  .scroll-to {
+    height: 2rem;
+    margin-left: 27rem;
+  }
+  
+  .title {
+    margin-left: 1rem;
+  }

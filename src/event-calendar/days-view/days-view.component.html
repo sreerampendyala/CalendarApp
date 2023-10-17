@@ -1,0 +1,85 @@
+<mat-card
+  class="event-calender-day-range-container"
+  [id]="'calender-day-range-card-' + (eventDetails?.resourceId || 0)"
+>
+  <mat-card-title *ngIf="hasCardTitle">
+    <ng-container [ngTemplateOutlet]="resourceTitleDV"></ng-container>
+    <!-- Paste headers here or somewhere around here [like resource avatar etc.] -->
+  </mat-card-title>
+  <mat-card-content [class.has-title]="hasCardTitle">
+    <ng-container *ngIf="daysInView.length > 1">
+      <ng-container *ngTemplateOutlet="verticalGrid"></ng-container>
+    </ng-container>
+
+    <div class="days-header">
+      <ng-container *ngFor="let day of daysInView">
+        <div
+          class="header"
+          [class.present-day]="today === day"
+          *ngIf="daysInView.length > 1"
+        >
+          <span>{{ day | calendarTZ: timeZone:'EEE, dd' }}</span>
+        </div>
+      </ng-container>
+    </div>
+    <div
+      appCalendarScroll
+      (scroll)="onScroll(calenderSlots.scrollTop)"
+      #calenderSlots
+      class="event-calender-day-range-content"
+    >
+      <ng-container *ngTemplateOutlet="calenderDays"></ng-container>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #calenderDays>
+  <div class="slots-view">
+    <ng-container *ngFor="let day of daysInView">
+      <div class="day">
+        <app-day-card
+          [resourceId]="eventDetails?.resourceId || 0"
+          [events]="eventDetails?.events?.[day] || []"
+          [timeStamps]="timeStamps"
+          [day]="day"
+          [timeScale]="timeScale"
+          [allowBlockedSlotOverride]="allowBlockedSlotOverride"
+          [blockedSlots]="blockedSlots?.events?.[day] || []"
+          [showPopOverOnClick]="showPopOverOnClick"
+          [rightClickEnable]="rightClickEnable"
+          [slotRightClickEnableForResourceId]="
+            slotRightClickEnableForResourceId
+          "
+          [overlayCloseSubject]="overlayCloseSubject"
+          [timeZone]="timeZone"
+          (addEventInDayRangeClicked)="addEventInDayRangeClicked.emit($event)"
+          (eventClicked)="eventClicked.emit($event)"
+        >
+          <ng-template #popoverContentMV>
+            <ng-container [ngTemplateOutlet]="popoverContentES"></ng-container>
+          </ng-template>
+          <ng-template #contextMenuContentDV let-event="event">
+            <ng-container
+              [ngTemplateOutlet]="contextMenuContentES"
+              [ngTemplateOutletContext]="{ event: event }"
+            ></ng-container>
+          </ng-template>
+          <ng-template #slotContextMenuContentDV let-slot="slot">
+            <ng-container
+              [ngTemplateOutlet]="slotContextMenuContentES"
+              [ngTemplateOutletContext]="{ slot: slot }"
+            ></ng-container>
+          </ng-template>
+        </app-day-card>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #verticalGrid>
+  <div class="grid-container">
+    <ng-container *ngFor="let day of daysInView">
+      <div class="vertical-grid"></div>
+    </ng-container>
+  </div>
+</ng-template>

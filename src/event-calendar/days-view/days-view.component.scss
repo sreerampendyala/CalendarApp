@@ -1,0 +1,110 @@
+.event-calender-day-range {
+    &-container {
+      border: 0.1rem solid #cfd3d7;
+      border-bottom: 0;
+      border-radius: 0.5rem;
+      box-sizing: border-box;
+      height: 100%;
+      margin-top: 1rem;
+      min-width: 53.75rem;
+      padding: 1.5rem 0;
+      width: inherit;
+      background-color: #fff;
+  
+      .mat-mdc-card-title {
+        height: 3rem;
+        margin-bottom: 0;
+      }
+    }
+  
+    &-content {
+      display: flex;
+      flex-direction: row;
+      overflow: hidden;
+      position: relative;
+      width: inherit;
+      background-color: #fff;
+    }
+  }
+  
+  .mat-mdc-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    padding: 0;
+  
+    &.has-title {
+      height: calc(100% - 3rem);
+    }
+
+    &:last-child {
+      padding: 0;
+    }
+
+    &:first-child {
+      padding: 0;
+    }
+
+  }
+  
+  .grid-container {
+    display: flex;
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    z-index: 50;
+  
+    .vertical-grid {
+      box-sizing: border-box;
+      width: 100%;
+  
+      &:not(:last-child) {
+        border-right: 0.1rem solid #cfd3d7;
+      }
+    }
+  }
+  
+  .days-header {
+    background-color: #f4f4f5;
+    display: flex;
+    flex-direction: row;
+  
+    .header {
+      align-items: center;
+      box-sizing: border-box;
+      display: flex;
+      height: 4rem;
+      justify-content: center;
+      width: 100%;
+  
+      span {
+        font-size: 0.875rem;
+        font-weight: 700;
+        line-height: 1.25rem;
+      }
+  
+      &.present-day {
+        border-top: solid #007cbf;
+        border-top-width: medium;
+      }
+    }
+  }
+  
+  .slots-view {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  
+    .day {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+  
+      app-day-card {
+        height: fit-content;
+        width: 100%;
+      }
+    }
+  }

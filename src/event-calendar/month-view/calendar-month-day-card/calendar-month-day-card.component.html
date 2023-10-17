@@ -1,0 +1,76 @@
+<div class="day-container" [class.past-date]="isDateNotInMonth" #container>
+    <span class="day-header" #dayHeader>
+      {{ date | calendarTZ: timeZone:'dd' }}
+    </span>
+    <div class="day-events">
+      <ng-container *ngFor="let event of visibleEvents">
+        <ng-container
+          [ngTemplateOutlet]="eventCard"
+          [ngTemplateOutletContext]="{ event: event }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngIf="hiddenEventsCount > 0">
+        <div
+          class="events-badge"
+          [attr.data-qa]="
+            'badge-click-' + (date | calendarTZ: timeZone:'MM/dd/yyyy')
+          "
+          (click)="onBadgeClick($event)"
+          (mousedown)="$event.preventDefault()"
+        >
+          <span>+{{ hiddenEventsCount }}</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  
+  <ng-template #eventCard let-event="event">
+    <div
+      class="card-container"
+      [ngStyle]="{
+        backgroundColor: event.backgroundColor,
+        color: event.foregroundColor
+      }"
+      [id]="'event-' + resourceId + '-' + event.eventId"
+      [attr.data-qa]="'event-click-' + event.eventId"
+      [matTooltip]="
+        event.eventName +
+        '\n' +
+        (event.startDateTime | calendarTZ: timeZone:'hh:mm a') +
+        ' - ' +
+        (event.endDateTime | calendarTZ: timeZone:'hh:mm a')
+      "
+      matTooltipClass="card-tooltip"
+      matTooltipPosition="after"
+      (click)="onEventCardClicked(event, $event, trigger)"
+      (mousedown)="$event.preventDefault()"
+      (contextmenu)="onRightClick($event, event)"
+      cdkOverlayOrigin
+      #trigger="cdkOverlayOrigin"
+    >
+      <div [matMenuTriggerFor]="contextMenu"></div>
+      <div class="content">
+        <div class="event-leading">
+          <span class="stamp">{{
+            !isAllDayEvent(event.startDateTime, event.endDateTime)
+              ? (event.startDateTime | calendarTZ: timeZone:'hh:mm a')
+              : ''
+          }}</span>
+          <span class="title">{{ event.eventName }}</span>
+        </div>
+        <button *ngIf="event.recurringEvent" mat-icon-button class="small">
+          <mat-icon class="material-icons-outlined">repeat</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-menu
+      class="default-menu"
+      [id]="'month-card-menu-' + event.eventId"
+      #contextMenu="matMenu"
+    >
+      <ng-container
+        [ngTemplateOutlet]="contextMenuContentMV"
+        [ngTemplateOutletContext]="{ event: event }"
+      ></ng-container>
+    </mat-menu>
+  </ng-template>

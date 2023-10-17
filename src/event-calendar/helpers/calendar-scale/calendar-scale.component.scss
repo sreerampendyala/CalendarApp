@@ -1,0 +1,29 @@
+.container {
+    cursor: pointer;
+  }
+  
+  .scale-popover-content {
+    box-sizing: border-box;
+    margin: 1rem 0;
+    width: 9.375rem;
+  
+    .selected-backgorund {
+      background-color: #f4f4f5;
+    }
+  
+    & > *:hover {
+      background-color: #ebf8ff;
+    }
+  }
+  
+  .scale-item {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    height: 3rem;
+    padding: 0 1rem;
+  
+    .scale-description {
+      margin-left: 0.875rem;
+    }
+  }

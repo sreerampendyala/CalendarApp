@@ -23,7 +23,7 @@ export interface EventAlignment {
   left: string;
 }
 
-export interface CalendarEvent {
+export interface EventDTO {
   startDateTime: Date;
   endDateTime: Date;
   eventName: string;
@@ -40,28 +40,28 @@ export interface BlockedEvent {
   endDateTime: Date;
 }
 
-export interface ResourceEvemts {
+export interface ResourceEvents {
   resourceId: number;
-  events: CalendarEvent[];
+  events: EventDTO[];
 }
 
-export interface WeekDayEvent extends CalendarEvent, EventAlignment {}
+export interface WeekDayEvent extends EventDTO, EventAlignment {}
 
 export interface BlockedDayEvent extends BlockedEvent, EventAlignment {}
 
 export interface CalendarEventView {
   resourceId: number;
   events: {
-    [date: string]: CalendarEvent[];
+    [date: string]: EventDTO[];
   };
 }
 
-export interface ResouceBlockedEvent {
+export interface ResourceBlockedEvent {
   resourceId: number;
   events: BlockedEvent[];
 }
 
-export interface ResourceBlockedEventView {
+export interface ResourceBlockedEventsView {
   resourceId: number;
   events: {
     [date: string]: BlockedEvent[];

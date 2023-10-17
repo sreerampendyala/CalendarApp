@@ -1,0 +1,119 @@
+::ng-deep .card-tooltip {
+    white-space: pre-line;
+  }
+  
+  .day-container {
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+    overflow: hidden;
+    width: inherit;
+  
+    &.past-date {
+      background-image: repeating-linear-gradient(
+        135deg,
+        rgba(#ebedee, 0.7),
+        rgba(#ebedee, 0.7) 0.125rem,
+        #fff 0.125rem,
+        #fff 0.25rem
+      );
+  
+      &:hover {
+        cursor: default;
+      }
+    }
+  
+    .day-header {
+      display: flex;
+      font-size: 0.875rem;
+      font-weight: 700;
+      line-height: 1.25rem;
+      margin-left: 0.5rem;
+    }
+  
+    .day-events {
+      display: flex;
+      flex-direction: column;
+  
+      .events-badge {
+        align-items: center;
+        border: 0.1rem solid #cfd3d7;
+        border-radius: 0.125rem;
+        box-sizing: border-box;
+        cursor: pointer;
+        display: flex;
+        height: 1.25rem;
+        justify-content: center;
+        margin: 0.125rem 0.125rem 0;
+        width: 3rem;
+  
+        span {
+          font-size: 0.75rem;
+          font-weight: 400;
+        }
+  
+        &:hover {
+          background-color: #f4f4f5;
+        }
+      }
+    }
+  }
+  
+  .card-container {
+    border-radius: 0.125rem;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    height: 1.25rem;
+    margin: 0.125rem 0.125rem 0;
+  
+    .content {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      overflow: hidden;
+      width: 100%;
+    }
+  
+    .event-leading {
+      display: flex;
+      overflow: hidden;
+    }
+  
+    .title,
+    .stamp {
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+  
+    .stamp {
+      font-weight: 400;
+      margin-left: 0.5rem;
+    }
+  
+    .title {
+      font-weight: 700;
+      margin: 0 0.5rem;
+      overflow: hidden;
+    }
+  
+    .small {
+      height: 1rem !important;
+      line-height: 1rem !important;
+      margin-right: 0.5rem;
+      width: 1rem !important;
+      padding: 0;
+  
+      mat-icon {
+        font-size: 0.75rem;
+        height: 1rem;
+        line-height: 1rem;
+        width: 1rem;
+      }
+    }
+  
+    &:hover {
+      opacity: 0.8;
+    }
+  }

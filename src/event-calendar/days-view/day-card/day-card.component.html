@@ -1,0 +1,128 @@
+<div class="day-card-container">
+    <ng-container *ngFor="let slot of timeStamps; let i = index">
+      <div
+        class="time-slot"
+        [id]="
+          slot +
+          '-' +
+          (endDateTimeStamps[i] | calendarTZ: timeZone:'hh:mm a')
+        "
+        [attr.data-qa]="
+          'week-view-click-' +
+          slot +
+          '-' +
+          (endDateTimeStamps[i] | calendarTZ: timeZone:'hh:mm a')
+        "
+        (click)="onSlotClick(slot, endDateTimeStamps[i])"
+        (contextmenu)="onRightClickSlot(endDateTimeStamps[i], $event, i)"
+      >
+        <div
+          #slotContextMenuTrigger="matMenuTrigger"
+          [matMenuTriggerFor]="slotContextMenu"
+        ></div>
+      </div>
+      <mat-menu
+        class="default-menu"
+        [id]="
+          'slot-menu-' +
+          slot +
+          '-' +
+          (endDateTimeStamps[i] | calendarTZ: timeZone:'hh:mm a')
+        "
+        #slotContextMenu="matMenu"
+      >
+        <ng-container
+          [ngTemplateOutlet]="slotContextMenuContentDV"
+          [ngTemplateOutletContext]="{
+            slot: {
+              start: slot,
+              end: endDateTimeStamps[i],
+              resourceId: resourceId
+            }
+          }"
+        ></ng-container>
+      </mat-menu>
+    </ng-container>
+    <div class="events-presentation">
+      <ng-container *ngFor="let groupedEvents of formattedEvents; let fi = index">
+        <ng-container *ngFor="let event of groupedEvents; let gi = index">
+          <ng-container
+            [ngTemplateOutlet]="eventCard"
+            [ngTemplateOutletContext]="{
+              event: event,
+              index: getEventIndex(event.eventId)
+            }"
+          ></ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div class="blocked-slots">
+      <ng-container *ngFor="let blocked of formattedBlockedEvents">
+        <div
+          class="blocked"
+          [class.blocked-override]="allowBlockedSlotOverride"
+          [style.top]="blocked.top"
+          [style.bottom]="blocked.bottom"
+          [style.left]="blocked.left"
+          [style.right]="blocked.right"
+        ></div>
+      </ng-container>
+    </div>
+  </div>
+  
+  <ng-template #eventCard let-event="event" let-index="index">
+    <div
+      class="event-block"
+      [style.top]="event.top"
+      [style.bottom]="event.bottom"
+      [style.left]="event.left"
+      [style.right]="event.right"
+      [style.border-left-color]="event.backgroundColor"
+    >
+      <div
+        class="container"
+        [id]="'event-' + resourceId + '-' + event.eventId"
+        [tabindex]="index"
+        #e
+      >
+        <div
+          class="event-background"
+          [style.backgroundColor]="event.backgroundColor"
+          [attr.data-qa]="'event-click-' + event.eventId"
+          matTooltipClass="card-tooltip"
+          [matTooltip]="
+            event.eventName +
+            '\n' +
+            (event.startDateTime | calendarTZ: timeZone:'hh:mm a') +
+            ' - ' +
+            (event.endDateTime | calendarTZ: timeZone:'hh:mm a')
+          "
+          (contextmenu)="onRightClickEvent(event, $event, index)"
+          (click)="onEventCardClicked(event, $event, trigger)"
+          cdkOverlayOrigin
+          #trigger="cdkOverlayOrigin"
+        ></div>
+        <div class="details" [style.height]="e.offsetHeight + 'px'">
+          <span class="title">{{ event.eventName }}</span>
+          <div class="icon-background" *ngIf="event.showCardTitleTrailingIcon">
+            <span class="icon">{{ event.cardTrailingIconText }}</span>
+          </div>
+        </div>
+      </div>
+      <div
+        #eventContextMenuTrigger="matMenuTrigger"
+        [matMenuTriggerFor]="contextMenu"
+      ></div>
+    </div>
+    <mat-menu
+      class="default-menu"
+      [id]="'day-card-menu-' + event.eventId"
+      #contextMenu="matMenu"
+    >
+      <ng-container
+        [ngTemplateOutlet]="contextMenuContentDV"
+        [ngTemplateOutletContext]="{ event: event }"
+      ></ng-container>
+    </mat-menu>
+  </ng-template>
+  

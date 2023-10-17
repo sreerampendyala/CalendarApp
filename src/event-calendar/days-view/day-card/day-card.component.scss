@@ -1,0 +1,139 @@
+::ng-deep .card-tooltip {
+    white-space: pre-line;
+  }
+  
+  .day-card-container {
+    height: inherit;
+    position: relative;
+    width: inherit;
+  
+    .events-presentation {
+      height: 100%;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      width: calc(100% - 1rem);
+      z-index: 100;
+    }
+  
+    .blocked-slots {
+      height: 100%;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      width: 100%;
+  
+      .blocked {
+        background-image: repeating-linear-gradient(
+          135deg,
+          rgba(#ebedee, 0.5),
+          rgba(#ebedee, 0.5) 0.125rem,
+          #fff 0.125rem,
+          #fff 0.25rem
+        );
+        margin: 0.1rem;
+        pointer-events: all;
+        position: absolute;
+  
+        &:hover {
+          cursor: default;
+        }
+  
+        &.blocked-override {
+          cursor: pointer;
+          pointer-events: none;
+        }
+      }
+    }
+  
+    .time-slot {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column-reverse;
+      max-height: 3.375rem;
+      min-height: 3.375rem;
+  
+      &:hover {
+        background-color: #ebf8ff;
+        cursor: pointer;
+      }
+    }
+  }
+  
+  .event-block {
+    background-color: transparent;
+    border-bottom-left-radius: 0.1rem;
+    border-left-style: solid;
+    border-left-width: thick;
+    border-top-left-radius: 0.1rem;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 0.1rem;
+    position: absolute;
+  
+    .container {
+      background-color: #fff;
+      border-radius: 0 0.25rem 0.25rem 0;
+      display: flex;
+      height: 100%;
+      min-height: 1.5rem;
+      overflow: hidden;
+      position: relative;
+  
+      .event-background {
+        border-left: 0;
+        border-radius: 0 0.25rem 0.25rem 0;
+        box-sizing: border-box;
+        display: flex;
+        filter: opacity(0.3);
+        height: 100%;
+        min-height: 1.5rem;
+        pointer-events: all;
+        transition: filter 0.2s ease;
+        width: 100%;
+  
+        &:hover {
+          filter: opacity(0.2);
+        }
+      }
+  
+      .details {
+        align-items: baseline;
+        color: #000;
+        display: flex;
+        margin: 0.25rem;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        width: calc(100% - 0.5rem);
+  
+        .title {
+          font-size: 0.75rem;
+          font-weight: 700;
+          overflow: hidden;
+        }
+  
+        .icon-background {
+          align-items: center;
+          background-color: #e75054;
+          border-radius: 0.25rem;
+          display: flex;
+          height: 0.75rem;
+          justify-content: center;
+          margin-left: 0.25rem;
+          max-width: 0.78rem;
+          min-width: 0.78rem;
+  
+          .icon {
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+          }
+        }
+      }
+  
+      &:focus {
+        box-shadow: 0.075rem 0.2rem 0.5rem 0 rgba(0, 0, 0, 100%);
+      }
+    }
+  }

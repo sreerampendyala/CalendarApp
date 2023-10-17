@@ -1,0 +1,117 @@
+<div class="container">
+    <ng-container [ngSwitch]="timeScale">
+      <ng-container *ngSwitchDefault>
+        <ng-container
+          [ngTemplateOutlet]="timelapse_15"
+          [ngTemplateOutletContext]="{ isClosed: false }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="Scale.HHour">
+        <ng-container
+          [ngTemplateOutlet]="timelapse_30"
+          [ngTemplateOutletContext]="{ isClosed: false }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="Scale.TQHour">
+        <ng-container
+          [ngTemplateOutlet]="timelapse_45"
+          [ngTemplateOutletContext]="{ isClosed: false }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="Scale.Hour">
+        <ng-container
+          [ngTemplateOutlet]="timelapse_60"
+          [ngTemplateOutletContext]="{ isClosed: false }"
+        ></ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+  
+  <ng-template #scalePopover>
+    <div class="scale-popover-content">
+      <div [class.selected-backgorund]="timeScale === Scale.QHour">
+        <ng-container
+          [ngTemplateOutlet]="timelapse_15"
+          [ngTemplateOutletContext]="{ isClosed: true }"
+        ></ng-container>
+      </div>
+      <div [class.selected-backgorund]="timeScale === Scale.HHour">
+        <ng-container
+          [ngTemplateOutlet]="timelapse_30"
+          [ngTemplateOutletContext]="{ isClosed: true }"
+        ></ng-container>
+      </div>
+      <div [class.selected-backgorund]="timeScale === Scale.TQHour">
+        <ng-container
+          [ngTemplateOutlet]="timelapse_45"
+          [ngTemplateOutletContext]="{ isClosed: true }"
+        ></ng-container>
+      </div>
+      <div [class.selected-backgorund]="timeScale === Scale.Hour">
+        <ng-container
+          [ngTemplateOutlet]="timelapse_60"
+          [ngTemplateOutletContext]="{ isClosed: true }"
+        ></ng-container>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #timelapse_15 let-isClosed="isClosed">
+    <div
+      [class.scale-item]="isClosed"
+      (click)="onScaleIconClicked(Scale.QHour, isClosed, trigger)"
+    >
+      <mat-icon
+        svgIcon="timelapse_15"
+        [matTooltip]="isClosed ? '' : '15 minutes'"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
+      ></mat-icon>
+      <span class="scale-description" *ngIf="isClosed"> 15 mins </span>
+    </div>
+  </ng-template>
+  
+  <ng-template #timelapse_30 let-isClosed="isClosed">
+    <div
+      [class.scale-item]="isClosed"
+      (click)="onScaleIconClicked(Scale.HHour, isClosed, trigger)"
+    >
+      <mat-icon
+        svgIcon="timelapse_30"
+        [matTooltip]="isClosed ? '' : '30 minutes'"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
+      ></mat-icon>
+      <span class="scale-description" *ngIf="isClosed"> 30 mins </span>
+    </div>
+  </ng-template>
+  
+  <ng-template #timelapse_45 let-isClosed="isClosed">
+    <div
+      [class.scale-item]="isClosed"
+      (click)="onScaleIconClicked(Scale.TQHour, isClosed, trigger)"
+    >
+      <mat-icon
+        svgIcon="timelapse_45"
+        [matTooltip]="isClosed ? '' : '45 minutes'"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
+      ></mat-icon>
+      <span class="scale-description" *ngIf="isClosed"> 45 mins </span>
+    </div>
+  </ng-template>
+  
+  <ng-template #timelapse_60 let-isClosed="isClosed">
+    <div
+      [class.scale-item]="isClosed"
+      (click)="onScaleIconClicked(Scale.Hour, isClosed, trigger)"
+    >
+      <mat-icon
+        svgIcon="timelapse_60"
+        [matTooltip]="isClosed ? '' : '60 minutes'"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
+      ></mat-icon>
+      <span class="scale-description" *ngIf="isClosed"> 60 mins </span>
+    </div>
+  </ng-template>

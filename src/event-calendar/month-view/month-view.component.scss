@@ -1,0 +1,119 @@
+.event-calender-month {
+	&-container {
+		border: 0.1rem solid #cfd3d7;
+		border-bottom: 0;
+		border-radius: 0.5rem;
+		height: calc(100% - 0.5rem);
+		min-width: 53.75rem;
+		padding: 0;
+		width: inherit;
+		background-color: #fff;
+	}
+
+	&-content {
+		height: calc(100% - 1rem);
+		width: inherit;
+		background-color: #fff;
+	}
+}
+
+.mat-mdc-card-title {
+	display: flex;
+	justify-content: center;
+}
+
+.mat-mdc-card-content {
+	box-sizing: border-box;
+	padding: 0 0 0 0.5rem;
+
+	.days-header {
+		display: flex;
+		flex-direction: row;
+		padding-right: 0.5rem;
+
+		.day {
+			align-items: center;
+			border-bottom: 0.1rem solid #cfd3d7;
+			border-left: 0.1rem solid #cfd3d7;
+			box-sizing: border-box;
+			display: flex;
+			height: 2.5rem;
+			justify-content: center;
+			min-width: 7.25rem;
+			width: 100%;
+
+			&:first-child {
+				border-left: 0;
+			}
+
+			span {
+				font-size: 0.875rem;
+				font-weight: 700;
+				line-height: 1.25rem;
+			}
+		}
+	}
+
+	.calender-body {
+		display: flex;
+		flex-direction: column;
+		height: calc(100% - 2.25rem);
+		overflow: scroll;
+		padding-right: 0.5rem;
+
+		.calender-row {
+			display: flex;
+			flex-direction: row;
+			height: 100%;
+
+			.calender-row-day {
+				border-bottom: 0.1rem solid #cfd3d7;
+				border-left: 0.1rem solid #cfd3d7;
+				box-sizing: border-box;
+				cursor: pointer;
+				min-height: 7.2rem;
+				min-width: 7.25rem;
+				width: 100%;
+
+				&:first-child {
+					border-left: 0;
+				}
+
+				&.present-day {
+					border-top: solid #007cbf;
+					border-top-width: medium;
+				}
+
+				&:focus {
+					background-color: #ebf8ff;
+				}
+
+				app-calendar-month-day-card {
+					box-sizing: border-box;
+					display: flex;
+					height: 100%;
+					padding-bottom: 0.1rem;
+					width: inherit;
+				}
+			}
+
+			&:last-child {
+				.calender-row-day {
+					border-bottom: 0;
+
+					&:first-child {
+						border-bottom-left-radius: 0.5rem;
+					}
+
+					&:last-child {
+						border-bottom-right-radius: 0.5rem;
+					}
+				}
+			}
+		}
+	}
+
+	&:last-child {
+		padding-bottom: 0;
+	}
+}

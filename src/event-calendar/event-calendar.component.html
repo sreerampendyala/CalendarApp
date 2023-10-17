@@ -1,1 +1,192 @@
-<p>event-calendar works!</p>
+<div class="event-scheduler-container">
+    <ng-container *ngIf="calendarView !== CalendarView.Month">
+      <ng-container *ngTemplateOutlet="timeStampsView"></ng-container>
+      <ng-container *ngTemplateOutlet="horizontalGrid"></ng-container>
+      <div
+        class="time-marker-container"
+        [ngClass]="
+          {
+            'no-header-week': 'grid-top-no-header',
+            'with-header-week': 'grid-top-header',
+            'no-header-day': 'grid-top-day-no-header',
+            'with-header-day': 'grid-top-day-header'
+          }[marginConditionsOnDayRange] || ''
+        "
+        appCalendarScroll
+      >
+        <div
+          class="time"
+          [style.height]="timeMarkerContainerHeight"
+          #timeMarkerContainer
+        >
+          <ng-container *ngTemplateOutlet="indicator"></ng-container>
+        </div>
+      </div>
+    </ng-container>
+  
+    <div
+      class="calender"
+      id="event-resource-calender-container"
+      (scroll)="calenderScroll.emit()"
+    >
+      <ng-container *ngFor="let resourceEvent of formattedEventsView">
+        <app-month-view
+          class="calender-box-size"
+          [dateInMonth]="date"
+          [hasCardTitle]="hasCardTitle"
+          [eventDetails]="resourceEvent"
+          [showPopOverOnClick]="showPopOverOnClick"
+          [overlayCloseSubject]="overlayCloseSubject"
+          [rightClickEnable]="hasRightClickEnabled"
+          [timeZone]="timeZone"
+          (badgeClicked)="badgeClicked.emit($event)"
+          (eventClicked)="eventClicked.emit($event)"
+          (addEventInMonthClicked)="addEventInMonthClicked.emit($event)"
+          *ngIf="calendarView === CalendarView.Month; else daysRangeView"
+        >
+          <ng-template #popoverContentES>
+            <ng-container [ngTemplateOutlet]="popoverContent"></ng-container>
+          </ng-template>
+  
+          <ng-template #contextMenuContentES let-event="event">
+            <ng-container
+              [ngTemplateOutlet]="contextMenuContent"
+              [ngTemplateOutletContext]="{ event: event }"
+            ></ng-container>
+          </ng-template>
+        </app-month-view>
+  
+        <ng-template #daysRangeView>
+          <app-days-view
+            class="calender-box-size day-range"
+            [timeStamps]="timeStamps"
+            [hasCardTitle]="hasCardTitle"
+            [timeScale]="timeScale"
+            [selectedDate]="date"
+            [calendarView]="calendarView"
+            [eventDetails]="resourceEvent"
+            [timeZone]="timeZone"
+            [rightClickEnable]="hasRightClickEnabled"
+            [slotRightClickEnableForResourceId]="
+            rightClickEnabledResourceId
+            "
+            [allowBlockedSlotOverride]="allowBlockedSlotsOverride"
+            [blockedSlots]="getBlockedEventsOfResource(resourceEvent.resourceId)"
+            [overlayCloseSubject]="overlayCloseSubject"
+            [showPopOverOnClick]="showPopOverOnClick"
+            [id]="
+              'calender-day-range-card-container-' +
+              (resourceEvent.resourceId || 0)
+            "
+            (eventClicked)="
+              onDayRangeEventClicked($event, resourceEvent.resourceId)
+            "
+            (addEventInDayRangeClicked)="addEventInDayRangeClicked.emit($event)"
+          >
+            <ng-template #popoverContentES>
+              <ng-container [ngTemplateOutlet]="popoverContent"></ng-container>
+            </ng-template>
+  
+            <ng-template #resourceTitleDV>
+              <ng-container
+                [ngTemplateOutlet]="resourceTitle"
+                [ngTemplateOutletContext]="{
+                  resourceId: resourceEvent?.resourceId || 0
+                }"
+              ></ng-container>
+            </ng-template>
+  
+            <ng-template #contextMenuContentES let-event="event">
+              <ng-container
+                [ngTemplateOutlet]="contextMenuContent"
+                [ngTemplateOutletContext]="{ event: event }"
+              ></ng-container>
+            </ng-template>
+  
+            <ng-template #slotContextMenuContentES let-slot="slot">
+              <ng-container
+                [ngTemplateOutlet]="slotContextMenuContent"
+                [ngTemplateOutletContext]="{ slot: slot }"
+              ></ng-container>
+            </ng-template>
+          </app-days-view>
+        </ng-template>
+      </ng-container>
+    </div>
+  
+    <div
+      *ngIf="calendarView !== CalendarView.Month"
+      class="vertical-scroll-container"
+      appCalendarScroll
+      #scrollbar
+      (scroll)="onScroll(scrollbar.scrollTop)"
+      [ngClass]="
+        {
+          'no-header-week': 'grid-top-no-header',
+          'with-header-week': 'grid-top-header',
+          'no-header-day': 'grid-top-day-no-header',
+          'with-header-day': 'grid-top-day-header'
+        }[marginConditionsOnDayRange] || ''
+      "
+    >
+      <div
+        [style.height]="'calc(' + timeMarkerContainerHeight + ' + 0.75rem)'"
+      ></div>
+    </div>
+  </div>
+  
+  <ng-template #timeStampsView>
+    <div class="scale-stamps-container">
+      <div
+        class="scale"
+        [ngClass]="
+          {
+            'no-header-week': 'time-top-no-header',
+            'with-header-week': 'time-top-header',
+            'no-header-day': 'time-top-day-no-header',
+            'with-header-day': 'time-top-day-header'
+          }[marginConditionsOnDayRange] || ''
+        "
+      >
+        <app-calendar-scale
+          [timeScale]="timeScale"
+          (changedTimeScale)="onChangedTimeScale($event)"
+        ></app-calendar-scale>
+      </div>
+      <div class="stamps" appCalendarScroll>
+        <div class="stamp" *ngFor="let stamp of timeStamps">
+          <span>{{ stamp === noonTime ? 'Noon' : stamp }}</span>
+        </div>
+        <div class="stamp">
+          <span>12:00 AM</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #horizontalGrid>
+    <div
+      class="grid-lines"
+      [ngClass]="
+        {
+          'no-header-week': 'grid-top-no-header',
+          'with-header-week': 'grid-top-header',
+          'no-header-day': 'grid-top-day-no-header',
+          'with-header-day': 'grid-top-day-header'
+        }[marginConditionsOnDayRange] || ''
+      "
+      appCalendarScroll
+    >
+      <span class="grid" *ngFor="let stamp of timeStamps"></span>
+      <span class="grid"></span>
+    </div>
+  </ng-template>
+  
+  <ng-template #indicator>
+    <div class="time-indicator" [style.top]="getMarkerPosition()">
+      <div class="container">
+        <span class="dot" [matTooltip]="getTime()"> </span>
+        <span class="line"></span>
+      </div>
+    </div>
+  </ng-template>
